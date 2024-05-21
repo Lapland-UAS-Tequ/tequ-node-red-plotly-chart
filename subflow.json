@@ -1,0 +1,202 @@
+{
+    "id": "dea048108c92d7cf",
+    "type": "subflow",
+    "name": "chart",
+    "info": "ui-template for Plotly.js chart",
+    "category": "Plotly",
+    "in": [
+        {
+            "x": 80,
+            "y": 140,
+            "wires": [
+                {
+                    "id": "b24e5190e3a30e55"
+                }
+            ]
+        }
+    ],
+    "out": [
+        {
+            "x": 940,
+            "y": 140,
+            "wires": [
+                {
+                    "id": "115a55d62f6f592e",
+                    "port": 0
+                }
+            ]
+        }
+    ],
+    "env": [
+        {
+            "name": "chart_name",
+            "type": "str",
+            "value": "x_chart",
+            "ui": {
+                "label": {
+                    "en-US": "Chart name"
+                },
+                "type": "input",
+                "opts": {
+                    "types": [
+                        "str"
+                    ]
+                }
+            }
+        },
+        {
+            "name": "group",
+            "type": "ui-group",
+            "value": "",
+            "ui": {
+                "type": "conf-types"
+            }
+        }
+    ],
+    "meta": {
+        "module": "tequ-node-red-plotly-chart",
+        "version": "0.0.1",
+        "author": "juha.autioniemi@lapinamk.fi",
+        "desc": "Plotly Dashboard 2.0 chart template.",
+        "license": "MIT"
+    },
+    "color": "#3FADB5",
+    "inputLabels": [
+        "From create node"
+    ],
+    "icon": "font-awesome/fa-area-chart",
+    "status": {
+        "x": 940,
+        "y": 200,
+        "wires": [
+            {
+                "id": "7978a8ba47af896d",
+                "port": 0
+            }
+        ]
+    },
+    "flow": [
+        {
+            "id": "7978a8ba47af896d",
+            "type": "status",
+            "z": "dea048108c92d7cf",
+            "name": "",
+            "scope": null,
+            "x": 800,
+            "y": 200,
+            "wires": [
+                []
+            ]
+        },
+        {
+            "id": "e13139de5004a0af",
+            "type": "ui-template",
+            "z": "dea048108c92d7cf",
+            "group": "${group}",
+            "name": "",
+            "order": 0,
+            "width": "12",
+            "height": "5",
+            "head": "",
+            "format": "<template>\n    <div class=\"plotlyChart\" id=\"\"></div>\n</template>\n<script>\n    const template_dom_id = this.id\n\n    this.$socket.on('msg-input:' + this.id, function(msg) {          \n        let chart_dom_id = msg.chart_name;\n        let selector = \"#nrdb-ui-widget-\"+template_dom_id+\" > div\"\n        let dom_element = document.querySelector(selector);\n        dom_element.attributes.id.value = chart_dom_id;\n    })\n</script>",
+            "storeOutMessages": true,
+            "passthru": true,
+            "resendOnRefresh": true,
+            "templateScope": "local",
+            "className": "",
+            "x": 460,
+            "y": 140,
+            "wires": [
+                [
+                    "951dd160a4453d26"
+                ]
+            ]
+        },
+        {
+            "id": "115a55d62f6f592e",
+            "type": "function",
+            "z": "dea048108c92d7cf",
+            "name": "Fmt output",
+            "func": "let id = msg.chart_name;\n\nmsg.payload = {\n    \"id\":id,\n    \"name\":env.get(\"chart_id\")\n}\n\nnode.status({ fill: \"blue\", shape: \"dot\", text: msg.status_ts +\" \"+id + \" created\"});\n\nreturn msg;",
+            "outputs": 1,
+            "timeout": 0,
+            "noerr": 0,
+            "initialize": "",
+            "finalize": "",
+            "libs": [],
+            "x": 790,
+            "y": 140,
+            "wires": [
+                []
+            ]
+        },
+        {
+            "id": "b24e5190e3a30e55",
+            "type": "function",
+            "z": "dea048108c92d7cf",
+            "name": "Check chart name",
+            "func": "if(\"chart_name\" in msg){\n    //pass\n}\nelse{\n    msg.chart_name = env.get(\"chart_name\")\n}\nreturn msg;",
+            "outputs": 1,
+            "timeout": 0,
+            "noerr": 0,
+            "initialize": "",
+            "finalize": "",
+            "libs": [],
+            "x": 250,
+            "y": 140,
+            "wires": [
+                [
+                    "e13139de5004a0af"
+                ]
+            ]
+        },
+        {
+            "id": "951dd160a4453d26",
+            "type": "moment",
+            "z": "dea048108c92d7cf",
+            "name": "ts",
+            "topic": "",
+            "input": "",
+            "inputType": "date",
+            "inTz": "ETC/UTC",
+            "adjAmount": 0,
+            "adjType": "days",
+            "adjDir": "add",
+            "format": "HH:mm:ss",
+            "locale": "en-US",
+            "output": "status_ts",
+            "outputType": "msg",
+            "outTz": "Europe/Helsinki",
+            "x": 630,
+            "y": 140,
+            "wires": [
+                [
+                    "115a55d62f6f592e"
+                ]
+            ]
+        },
+        {
+            "id": "c7e61d2018f513ae",
+            "type": "subflow:dea048108c92d7cf",
+            "z": "debe57df1350b9f8",
+            "name": "",
+            "env": [
+                {
+                    "name": "group",
+                    "value": "c4707e03964d83a8",
+                    "type": "conf-type"
+                },
+                {
+                    "name": "UI group",
+                    "value": "",
+                    "type": "str"
+                }
+            ],
+            "x": 910,
+            "y": 120,
+            "wires": [
+                []
+            ]
+        }
+    ]
+}
