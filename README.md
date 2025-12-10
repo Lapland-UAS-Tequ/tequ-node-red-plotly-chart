@@ -1,7 +1,7 @@
 tequ-node-red-plotly-chart
 =====================
 
-Plotly Dashboard 2.0 chart template.
+Dashboard 2.0 Plotly chart template.
 
 ## Install
 
@@ -11,4 +11,10 @@ Run the following command in your Node-RED user directory - typically `~/.node-r
 
 ## Information
 
-ui-template for Plotly.js chart
+Plotly.js chart template.
+
+Creates Plotly-chart inside ui-template.
+
+Use
+- "create"-node to create chart
+- "add"-node to add data chart 

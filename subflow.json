@@ -2,7 +2,7 @@
     "id": "dea048108c92d7cf",
     "type": "subflow",
     "name": "chart",
-    "info": "ui-template for Plotly.js chart",
+    "info": "Plotly.js chart template.\r\n\r\nCreates Plotly-chart inside ui-template.\r\n\r\nUse\r\n- \"create\"-node to create chart\r\n- \"add\"-node to add data chart ",
     "category": "Plotly",
     "in": [
         {
@@ -17,7 +17,7 @@
     ],
     "out": [
         {
-            "x": 940,
+            "x": 1150,
             "y": 140,
             "wires": [
                 {
@@ -31,7 +31,7 @@
         {
             "name": "chart_name",
             "type": "str",
-            "value": "x_chart",
+            "value": "",
             "ui": {
                 "label": {
                     "en-US": "Chart name"
@@ -51,22 +51,41 @@
             "ui": {
                 "type": "conf-types"
             }
+        },
+        {
+            "name": "add_msg_delay",
+            "type": "num",
+            "value": "200",
+            "ui": {
+                "label": {
+                    "en-US": "Output msg delay"
+                },
+                "type": "input",
+                "opts": {
+                    "types": [
+                        "num"
+                    ]
+                }
+            }
         }
     ],
     "meta": {
         "module": "tequ-node-red-plotly-chart",
-        "version": "0.0.1",
+        "version": "0.2",
         "author": "juha.autioniemi@lapinamk.fi",
-        "desc": "Plotly Dashboard 2.0 chart template.",
+        "desc": "Dashboard 2.0 Plotly chart template.",
         "license": "MIT"
     },
     "color": "#3FADB5",
     "inputLabels": [
         "From create node"
     ],
+    "outputLabels": [
+        "To add node"
+    ],
     "icon": "font-awesome/fa-area-chart",
     "status": {
-        "x": 940,
+        "x": 1100,
         "y": 200,
         "wires": [
             {
@@ -82,7 +101,7 @@
             "z": "dea048108c92d7cf",
             "name": "",
             "scope": null,
-            "x": 800,
+            "x": 780,
             "y": 200,
             "wires": [
                 []
@@ -93,10 +112,12 @@
             "type": "ui-template",
             "z": "dea048108c92d7cf",
             "group": "${group}",
-            "name": "",
+            "page": "",
+            "ui": "",
+            "name": "Plotly chart template",
             "order": 0,
-            "width": "12",
-            "height": "5",
+            "width": "6",
+            "height": "8",
             "head": "",
             "format": "<template>\n    <div class=\"plotlyChart\" id=\"\"></div>\n</template>\n<script>\n    const template_dom_id = this.id\n\n    this.$socket.on('msg-input:' + this.id, function(msg) {          \n        let chart_dom_id = msg.chart_name;\n        let selector = \"#nrdb-ui-widget-\"+template_dom_id+\" > div\"\n        let dom_element = document.querySelector(selector);\n        dom_element.attributes.id.value = chart_dom_id;\n    })\n</script>",
             "storeOutMessages": true,
@@ -104,7 +125,7 @@
             "resendOnRefresh": true,
             "templateScope": "local",
             "className": "",
-            "x": 460,
+            "x": 420,
             "y": 140,
             "wires": [
                 [
@@ -117,14 +138,14 @@
             "type": "function",
             "z": "dea048108c92d7cf",
             "name": "Fmt output",
-            "func": "let id = msg.chart_name;\n\nmsg.payload = {\n    \"id\":id,\n    \"name\":env.get(\"chart_id\")\n}\n\nnode.status({ fill: \"blue\", shape: \"dot\", text: msg.status_ts +\" \"+id + \" created\"});\n\nreturn msg;",
+            "func": "let id = msg.chart_name;\n\nmsg.delay = env.get(\"add_msg_delay\") || 200;\n\n/*\nmsg.payload = {\n    \"id\":id,\n    \"name\":env.get(\"chart_id\")\n}\n*/\n\nnode.status({ fill: \"blue\", shape: \"dot\", text: msg.status_ts +\" \"+id + \" created\"});\n\nreturn msg;",
             "outputs": 1,
             "timeout": 0,
             "noerr": 0,
             "initialize": "",
             "finalize": "",
             "libs": [],
-            "x": 790,
+            "x": 770,
             "y": 140,
             "wires": [
                 []
@@ -134,7 +155,7 @@
             "id": "b24e5190e3a30e55",
             "type": "function",
             "z": "dea048108c92d7cf",
-            "name": "Check chart name",
+            "name": "Check input",
             "func": "if(\"chart_name\" in msg){\n    //pass\n}\nelse{\n    msg.chart_name = env.get(\"chart_name\")\n}\nreturn msg;",
             "outputs": 1,
             "timeout": 0,
@@ -142,7 +163,7 @@
             "initialize": "",
             "finalize": "",
             "libs": [],
-            "x": 250,
+            "x": 210,
             "y": 140,
             "wires": [
                 [
@@ -167,7 +188,7 @@
             "output": "status_ts",
             "outputType": "msg",
             "outTz": "Europe/Helsinki",
-            "x": 630,
+            "x": 610,
             "y": 140,
             "wires": [
                 [
@@ -176,27 +197,54 @@
             ]
         },
         {
-            "id": "c7e61d2018f513ae",
+            "id": "e1424852654e27ba",
+            "type": "delay",
+            "z": "dea048108c92d7cf",
+            "name": "",
+            "pauseType": "delay",
+            "timeout": "200",
+            "timeoutUnits": "milliseconds",
+            "rate": "1",
+            "nbRateUnits": "1",
+            "rateUnits": "second",
+            "randomFirst": "1",
+            "randomLast": "5",
+            "randomUnits": "seconds",
+            "drop": false,
+            "allowrate": false,
+            "outputs": 1,
+            "x": 970,
+            "y": 140,
+            "wires": [
+                []
+            ]
+        },
+        {
+            "id": "05cde3d3eda35935",
             "type": "subflow:dea048108c92d7cf",
-            "z": "debe57df1350b9f8",
+            "z": "c49b3020b5a4b737",
             "name": "",
             "env": [
                 {
                     "name": "group",
-                    "value": "c4707e03964d83a8",
-                    "type": "conf-type"
-                },
-                {
-                    "name": "UI group",
                     "value": "",
-                    "type": "str"
+                    "type": "conf-type"
                 }
             ],
-            "x": 910,
-            "y": 120,
+            "x": 430,
+            "y": 320,
             "wires": [
                 []
             ]
+        },
+        {
+            "id": "a977bcab3075664d",
+            "type": "global-config",
+            "env": [],
+            "modules": {
+                "@flowfuse/node-red-dashboard": "1.27.1",
+                "node-red-contrib-moment": "5.0.0"
+            }
         }
     ]
 }
