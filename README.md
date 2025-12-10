@@ -7,7 +7,7 @@ Dashboard 2.0 Plotly chart template.
 
 Run the following command in your Node-RED user directory - typically `~/.node-red`
 
-        npm install tequ-node-red-plotly-chart
+        npm install Lapland-UAS-Tequ/tequ-node-red-plotly-chart
 
 ## Information
 
