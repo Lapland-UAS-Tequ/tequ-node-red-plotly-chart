@@ -71,7 +71,7 @@
     ],
     "meta": {
         "module": "tequ-node-red-plotly-chart",
-        "version": "0.2",
+        "version": "0.2.0",
         "author": "juha.autioniemi@lapinamk.fi",
         "desc": "Dashboard 2.0 Plotly chart template.",
         "license": "MIT"
@@ -238,7 +238,7 @@
             ]
         },
         {
-            "id": "a977bcab3075664d",
+            "id": "1a88e1ede0424bd8",
             "type": "global-config",
             "env": [],
             "modules": {
